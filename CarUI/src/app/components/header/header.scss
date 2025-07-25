@@ -1,0 +1,9 @@
+.toolbar {
+  justify-content: space-between;
+  align-items: center;
+
+  &__user {
+    display: flex;
+    align-items: center;
+  }
+}
