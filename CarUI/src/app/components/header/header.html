@@ -1,9 +1,10 @@
 <mat-toolbar color="primary" class="toolbar">
-      <span class="logo" routerLink="/">Car Ecommerce</span>
-      <div class="toolbar__user">
-        <span class="username">{{ userName() }}</span>
-        <button matIconButton aria-label="Example icon button with a vertical three dot icon">
-          <mat-icon>logout</mat-icon>
-        </button>
+      <img class="toolbar__logo" src="CarEcommerce_logo.png" routerLink="/" />
+      <div class="toolbar__logout">
+        @if (isLoggedIn()) {
+          <button matIconButton aria-label="Example icon button with a vertical three dot icon" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+          </button>
+        }
       </div>
     </mat-toolbar>

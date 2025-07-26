@@ -16,9 +16,13 @@ import { MsalService } from '@azure/msal-angular';
 })
 export class Header implements OnInit {
   private msalService = inject(MsalService);
-  userName = signal<string>('')
+  isLoggedIn = signal<boolean>(false)
 
   ngOnInit(): void {
-    this.userName.set(this.msalService.instance.getAllAccounts()?.[0]?.name!);
+    this.isLoggedIn.set(this.msalService.instance.getAllAccounts()?.length > 0);
+  }
+
+  logout(): void {
+    this.msalService.logoutRedirect({ postLogoutRedirectUri: '/' });
   }
 }

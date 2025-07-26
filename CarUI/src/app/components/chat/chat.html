@@ -1,1 +1,47 @@
-<p>chat works!</p>
+<mat-drawer-container class="chat-container">
+  <!-- Left Panel for Conversations -->
+  <mat-drawer mode="side" opened class="chat-drawer">
+    <div class="drawer-header">
+      <h3>Conversations</h3>
+      <button mat-icon-button color="primary" matTooltip="New Chat" (click)="startNewConversation()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <mat-nav-list>
+      @for (conv of conversations(); track $index) {
+        <mat-list-item (click)="selectConversation(conv)" [class.selected]="selectedConversation() === conv">
+          {{ conv.name }}
+        </mat-list-item>
+      }
+    </mat-nav-list>
+  </mat-drawer>
+
+  <!-- Main Chat Area -->
+  <mat-drawer-content class="chat-content">
+    <div #chatMessages class="chat-messages" [class.chat-messages__is-empty]="selectedConversation()?.messages?.length === 0">
+      @for (msg of selectedConversation()?.messages; track $index) {
+        <div class="chat-messages__message" [ngClass]="'chat-messages__message--'+msg.sender">
+          <span class="chat-messages__message--floating" [ngClass]="'chat-messages__message--floating-'+msg.sender">{{ msg.sender === 'user' ? userName() : 'System' }}</span>
+          <span>{{ msg.text }}</span>
+        </div>
+      } @empty {
+        <div class="empty-chat">
+          <mat-icon class="empty-chat__icon">chat_bubble_outline</mat-icon>
+          <h3>Welcome to our Car E-commerce Chat!</h3>
+          <p>Ask us anything about our cars, offers, and services. Start a conversation now 🚗.</p>
+        </div>
+      }
+    </div>
+
+    @if(selectedConversation()) {
+      <form (ngSubmit)="sendMessage()" class="chat-input">
+        <mat-form-field class="input-field" appearance="outline">
+          <input matInput [(ngModel)]="message" name="message" placeholder="Type a message..." />
+        </mat-form-field>
+        <button mat-icon-button color="primary" type="submit" [disabled]="!message">
+          <mat-icon>send</mat-icon>
+        </button>
+      </form>
+    }
+  </mat-drawer-content>
+</mat-drawer-container>

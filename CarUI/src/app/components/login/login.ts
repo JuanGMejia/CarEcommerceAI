@@ -23,8 +23,4 @@ export class Login implements OnInit {
   login() {
     this.msalService.loginRedirect();
   }
-
-  logout() {
-    this.msalService.logoutRedirect({ postLogoutRedirectUri: '/' });
-  }
 }
