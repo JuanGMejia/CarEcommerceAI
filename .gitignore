@@ -76,8 +76,6 @@ docker-compose.override.yml
 *.rej
 
 # Ignore frontend and backend specific build artifacts
-CarUI/build/
-CarUI/dist/
-CarUI/.angular/*
-car-be/build/
-car-be/dist/
+build/
+dist/
+.angular/*
