@@ -1,0 +1,4 @@
+window.__env = {
+  CLIENT_ID: "REPLACEME_API_URL",
+  TENANT_ID: "REPLACEME_KEY"
+};

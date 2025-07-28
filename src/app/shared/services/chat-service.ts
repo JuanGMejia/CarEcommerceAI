@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
+  url = 'https://test-car-ecommerce-gabuechkd5cjhxap.chilecentral-01.azurewebsites.net';
   private http = inject(HttpClient);
 
   callApi(message: string): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>('http://localhost:3000/chat', { message });
+    return this.http.post<{ message: string }>(`${this.url}/chat`, { message });
   }
 }

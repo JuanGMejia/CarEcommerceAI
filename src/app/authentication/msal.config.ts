@@ -1,7 +1,7 @@
 import { PublicClientApplication } from '@azure/msal-browser';
 
-export const CLIENT_ID = '';
-export const TENANT_ID = '';
+export const CLIENT_ID = (window as any).__env?.CLIENT_ID;
+export const TENANT_ID = (window as any).__env?.TENANT_ID;
 
 export function AuthFactory(): PublicClientApplication {
   return new PublicClientApplication({
