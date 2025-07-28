@@ -2,6 +2,7 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
 COPY . .
+RUN npm install -g @angular/cli
 RUN npm run build
 
 # Runtime Stage
