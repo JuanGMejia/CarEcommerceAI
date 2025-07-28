@@ -11,7 +11,7 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
 # Copy built Angular app
-COPY --from=builder /app/dist/CarUI .
+COPY --from=builder /app/dist/CarUI/browser .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
