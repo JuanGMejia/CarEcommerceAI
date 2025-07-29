@@ -11,6 +11,8 @@ import { ChatSender, Conversation } from './chat.model';
 import { NgClass } from '@angular/common';
 import { MsalService } from '@azure/msal-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -24,7 +26,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatIconModule,
     NgClass,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressBarModule
   ],
   templateUrl: './chat.html',
   styleUrl: './chat.scss'
@@ -38,6 +41,7 @@ export class Chat implements OnInit {
   message = '';
   conversations = signal<Conversation[]>([]);
   selectedConversation = signal<Conversation | null>(null);
+  isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.userName.set(this.msalService.instance.getActiveAccount()?.name ?? '');
@@ -45,20 +49,23 @@ export class Chat implements OnInit {
   }
 
   sendMessage() {
+    this.isLoading.set(true);
     if (this.message.trim()) {
       this.selectedConversation()?.messages.push({
         text: this.message.trim(),
         sender: ChatSender.USER
       });
-      this.chatService.callApi(this.message.trim()).subscribe(response => {
-        this.selectedConversation.update(conv => {
-          conv?.messages.push({
-            text: response.message,
-            sender: ChatSender.SYSTEM
-          })
-          return { ...conv! }
-        });
-      })
+      this.chatService.callApi(this.message.trim())
+        .pipe(finalize(() => this.isLoading.set(false)))
+        .subscribe(response => {
+          this.selectedConversation.update(conv => {
+            conv?.messages.push({
+              text: response.message,
+              sender: ChatSender.SYSTEM
+            })
+            return { ...conv! }
+          });
+        })
       this.message = '';
       this.displayLastMessage();
     }

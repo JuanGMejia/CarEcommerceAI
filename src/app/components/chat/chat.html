@@ -32,13 +32,25 @@
         </div>
       }
     </div>
+    @if(isLoading()) {
+      <div class="spinner-container">
+        <div class="spinner-text">
+          <div class="spinner-text__icon">
+            <mat-icon>auto_awesome</mat-icon>
+            <span>Alfred is generating your response...</span>
+          </div>
+          <span>Please wait a moment while we gather the most accurate information for you.</span>
+        </div>
+        <mat-progress-bar mode="buffer"></mat-progress-bar>
+      </div>
+    }
 
     @if(selectedConversation()) {
       <form (ngSubmit)="sendMessage()" class="chat-input">
         <mat-form-field class="input-field" appearance="outline">
-          <input matInput [(ngModel)]="message" name="message" placeholder="Type a message..." />
+          <input matInput [disabled]="isLoading()" [(ngModel)]="message" name="message" placeholder="Type a message..." />
         </mat-form-field>
-        <button mat-icon-button color="primary" type="submit" [disabled]="!message">
+        <button mat-icon-button color="primary" type="submit" [disabled]="!message || isLoading()">
           <mat-icon>send</mat-icon>
         </button>
       </form>

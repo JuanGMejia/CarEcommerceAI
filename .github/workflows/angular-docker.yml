@@ -34,3 +34,14 @@ jobs:
           build-args: |
             CLIENT_ID=${{ secrets.CLIENT_ID }}
             TENANT_ID=${{ secrets.TENANT_ID }}
+
+      - name: 🔐 Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 🚀 Update Web App to use Docker Image
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: car-ecommerce-ui
+          images: jgmejias/car-ecommerce-fe:${{ steps.version.outputs.VERSION }}

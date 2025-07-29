@@ -105,3 +105,28 @@
 .selected {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+.spinner-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 8px;
+  color: rgba(0, 0, 0, 0.6);
+  font-style: italic;
+}
+
+.spinner-text {
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+
+    mat-icon {
+      color: #3f51b5; // Primary color
+    }
+  }
+}
