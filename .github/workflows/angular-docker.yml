@@ -12,6 +12,10 @@ jobs:
       - name: 🧾 Checkout code
         uses: actions/checkout@v4
 
+      - name: 🏷 Extract version from package.json
+        id: version
+        run: echo "VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
       - name: 🔐 Docker Hub login
         uses: docker/login-action@v2
         with:
@@ -23,7 +27,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: jgmejias/car-ecommerce-fe:v2
+          tags: jgmejias/car-ecommerce-fe:${{ steps.version.outputs.VERSION }}
           build-args: |
             CLIENT_ID=${{ secrets.CLIENT_ID }}
             TENANT_ID=${{ secrets.TENANT_ID }}
