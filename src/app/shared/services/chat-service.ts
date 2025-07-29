@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  url = 'https://test-car-ecommerce-gabuechkd5cjhxap.chilecentral-01.azurewebsites.net';
+  url = 'https://car-ecommerce-api-v-axg5c5fxhfeydqdj.canadacentral-01.azurewebsites.net';
   private http = inject(HttpClient);
 
   callApi(message: string): Observable<{ message: string }> {
