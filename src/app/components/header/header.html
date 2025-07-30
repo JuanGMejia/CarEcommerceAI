@@ -1,10 +1,20 @@
 <mat-toolbar color="primary" class="toolbar">
-      <img class="toolbar__logo" src="CarEcommerce_logo.png" routerLink="/" />
-      <div class="toolbar__logout">
-        @if (isLoggedIn()) {
-          <button matIconButton aria-label="Example icon button with a vertical three dot icon" (click)="logout()">
-            <mat-icon>logout</mat-icon>
-          </button>
-        }
-      </div>
-    </mat-toolbar>
+  <img class="toolbar__logo" src="CarEcommerce_logo.png" routerLink="/" />
+  <div class="toolbar__nav">
+    <button mat-button routerLink="/alfred" routerLinkActive="active">
+      <mat-icon>smart_toy</mat-icon>
+      Alfred Expert
+    </button>
+    <button mat-button routerLink="/chat" routerLinkActive="active">
+      <mat-icon>chat</mat-icon>
+      Chat Original
+    </button>
+  </div>
+  <div class="toolbar__logout">
+    @if (isLoggedIn()) {
+      <button matIconButton aria-label="Example icon button with a vertical three dot icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    }
+  </div>
+</mat-toolbar>
