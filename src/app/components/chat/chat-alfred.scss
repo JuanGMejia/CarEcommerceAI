@@ -167,10 +167,26 @@
   }
 }
 
+// Estilos específicos para mensajes de Alfred con máxima especificidad
 .message-wrapper.message-Alfred .message-bubble {
   background: linear-gradient(135deg, #6a4c93, #8e44ad) !important;
-  border-radius: 18px 18px 18px 4px;
-  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3);
+  border-radius: 18px 18px 18px 4px !important;
+  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3) !important;
+  
+  .message-content {
+    color: white !important;
+  }
+  
+  .message-time {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+}
+
+// Estilos adicionales para asegurar que se aplique
+.whatsapp-container .message-wrapper.message-Alfred .message-bubble {
+  background: linear-gradient(135deg, #6a4c93, #8e44ad) !important;
+  border-radius: 18px 18px 18px 4px !important;
+  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3) !important;
 }
 
 .message-bubble {
