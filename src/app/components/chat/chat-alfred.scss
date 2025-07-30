@@ -167,6 +167,12 @@
   }
 }
 
+.message-wrapper.message-Alfred .message-bubble {
+  background: linear-gradient(135deg, #6a4c93, #8e44ad) !important;
+  border-radius: 18px 18px 18px 4px;
+  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3);
+}
+
 .message-bubble {
   max-width: 65%;
   padding: 8px 12px;
