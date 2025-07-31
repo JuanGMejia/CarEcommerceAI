@@ -13,6 +13,9 @@
       </div>
       <div class="header-actions">
         <img src="CarEcommerce_logo.png" alt="Logo" class="header-logo" />
+        <button mat-icon-button (click)="logout()" class="logout-button" aria-label="Cerrar sesión">
+          <mat-icon>logout</mat-icon>
+        </button>
       </div>
     </div>
   </div>
@@ -30,6 +33,13 @@
     } @else {
       @for (msg of selectedConversation()?.messages; track $index) {
         <div class="message-wrapper" [ngClass]="'message-' + msg.sender">
+          <div class="message-label">
+            @if(msg.sender === 'system') {
+              <span class="label-alfred">🤖Alfred</span>
+            } @else {
+              <span class="label-user">👤{{ userName().split(' ')[0] }}</span>
+            }
+          </div>
           <div class="message-bubble">
             <div class="message-content" [innerHTML]="processMessageFormat(msg.text)">
             </div>

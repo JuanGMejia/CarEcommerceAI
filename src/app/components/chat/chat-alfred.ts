@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild, OnDestroy } from '@angular/core';
 import { ChatService } from '../../shared/services/chat-service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ChatSender, Conversation } from './chat.model';
 import { NgClass } from '@angular/common';
 import { MsalService } from '@azure/msal-angular';
-import { finalize } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat-alfred',
@@ -23,12 +24,13 @@ import { finalize } from 'rxjs';
   templateUrl: './chat-alfred.html',
   styleUrl: './chat-alfred.scss'
 })
-export class ChatAlfred implements OnInit {
+export class ChatAlfred implements OnInit, OnDestroy {
 
   chatMessagesScroll = viewChild<ElementRef>('chatMessages');
   userName = signal<string>('');
   private chatService = inject(ChatService);
   private msalService = inject(MsalService);
+  private destroy$ = new Subject<void>();
   message = '';
   conversations = signal<Conversation[]>([]);
   selectedConversation = signal<Conversation | null>(null);
@@ -37,6 +39,40 @@ export class ChatAlfred implements OnInit {
   ngOnInit(): void {
     this.userName.set(this.msalService.instance.getActiveAccount()?.name ?? '');
     this.startNewConversation();
+    
+    // Suscribirse a la notificación de sesión expirada
+    this.chatService.sessionExpired$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.handleSessionExpired();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  handleSessionExpired(): void {
+    // Agregar mensaje de Alfred sobre la expiración de sesión
+    this.selectedConversation.update(conv => {
+      conv?.messages.push({
+        text: "🔒 Tu sesión ha expirado\nPor políticas de seguridad, las sesiones tienen una duración limitada y esta ha finalizado de forma automática.\nPor favor, vuelve a iniciar sesión para continuar con tu proceso.\nSi necesitas asistencia para ingresar nuevamente, nuestro equipo está disponible para ayudarte",
+        sender: ChatSender.SYSTEM
+      });
+      return { ...conv! };
+    });
+    
+    this.displayLastMessage();
+    
+    // Ejecutar logout después de 3 segundos
+    setTimeout(() => {
+      this.logout();
+    }, 3000);
+  }
+
+  logout(): void {
+    this.msalService.logoutRedirect({ postLogoutRedirectUri: '/' });
   }
 
   sendMessage() {
@@ -48,14 +84,28 @@ export class ChatAlfred implements OnInit {
       });
       this.chatService.callApi(this.message.trim())
         .pipe(finalize(() => this.isLoading.set(false)))
-        .subscribe(response => {
-          this.selectedConversation.update(conv => {
-            conv?.messages.push({
-              text: response.message,
-              sender: ChatSender.SYSTEM
-            })
-            return { ...conv! }
-          });
+        .subscribe({
+          next: (response) => {
+            this.selectedConversation.update(conv => {
+              conv?.messages.push({
+                text: response.message,
+                sender: ChatSender.SYSTEM
+              })
+              return { ...conv! }
+            });
+          },
+          error: (error) => {
+            // El error 401 ya se maneja en el servicio, aquí solo manejamos otros errores
+            if (error.status !== 401) {
+              this.selectedConversation.update(conv => {
+                conv?.messages.push({
+                  text: "Lo siento, ha ocurrido un error. Por favor, intenta nuevamente.",
+                  sender: ChatSender.SYSTEM
+                })
+                return { ...conv! }
+              });
+            }
+          }
         })
       this.message = '';
       this.displayLastMessage();
@@ -114,7 +164,6 @@ export class ChatAlfred implements OnInit {
     let inList = false;
     let listItems: string[] = [];
     let isNumberedList = false;
-    let hasContentBeforeList = false;
     
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
@@ -123,10 +172,6 @@ export class ChatAlfred implements OnInit {
       const numberedListMatch = line.match(/^(\d+)\.\s+(.+)$/);
       if (numberedListMatch) {
         if (!inList) {
-          // Solo agregar línea en blanco si hay contenido antes de la lista
-          if (hasContentBeforeList) {
-            processedLines.push('<br>');
-          }
           inList = true;
           isNumberedList = true;
         }
@@ -138,10 +183,6 @@ export class ChatAlfred implements OnInit {
         const bulletListMatch = line.match(/^(\s*)[-*]\s+(.+)$/);
         if (bulletListMatch) {
           if (!inList) {
-            // Solo agregar línea en blanco si hay contenido antes de la lista
-            if (hasContentBeforeList) {
-              processedLines.push('<br>');
-            }
             inList = true;
             isNumberedList = false;
           }
@@ -155,22 +196,12 @@ export class ChatAlfred implements OnInit {
           if (inList && listItems.length > 0) {
             // Final de lista - agregar todos los items
             processedLines.push(`<div class="list-container">${listItems.join('')}</div>`);
-            
-            // Solo agregar línea en blanco después si es una lista numerada
-            if (isNumberedList) {
-              processedLines.push('<br>');
-            }
-            
             listItems = [];
             inList = false;
             isNumberedList = false;
           }
           
-          // Si la línea no está vacía, marcar que hay contenido
-          if (line.trim() !== '') {
-            hasContentBeforeList = true;
-          }
-          
+          // Agregar la línea tal como está (sin procesar)
           processedLines.push(line);
         }
       }
@@ -179,13 +210,9 @@ export class ChatAlfred implements OnInit {
     // Si quedan items de lista al final
     if (inList && listItems.length > 0) {
       processedLines.push(`<div class="list-container">${listItems.join('')}</div>`);
-      
-      // Solo agregar línea en blanco después si es una lista numerada
-      if (isNumberedList) {
-        processedLines.push('<br>');
-      }
     }
     
+    // Unir las líneas preservando los saltos de línea originales
     return processedLines.join('\n');
   }
 

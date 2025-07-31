@@ -3,16 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MsalService } from '@azure/msal-angular';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   imports: [
     MatToolbarModule,
     MatButtonModule,
-    MatIcon,
-    RouterLink,
-    RouterLinkActive
+    MatIcon
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss'
