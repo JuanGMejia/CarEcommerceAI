@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, signal, viewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from '../../shared/services/chat-service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,17 +35,27 @@ export class ChatAlfred implements OnInit, OnDestroy {
   conversations = signal<Conversation[]>([]);
   selectedConversation = signal<Conversation | null>(null);
   isLoading = signal<boolean>(false);
+  cd = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
+    this.getAllConversations();
     this.userName.set(this.msalService.instance.getActiveAccount()?.name ?? '');
     this.startNewConversation();
-    
+
     // Suscribirse a la notificación de sesión expirada
     this.chatService.sessionExpired$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.handleSessionExpired();
       });
+  }
+
+  getAllConversations() {
+    this.chatService.getConversations().subscribe(conversations => {
+      this.selectedConversation()?.messages.push(...conversations);
+      this.cd.detectChanges();
+      this.displayLastMessage();
+    })
   }
 
   ngOnDestroy(): void {
@@ -62,9 +72,9 @@ export class ChatAlfred implements OnInit, OnDestroy {
       });
       return { ...conv! };
     });
-    
+
     this.displayLastMessage();
-    
+
     // Ejecutar logout después de 3 segundos
     setTimeout(() => {
       this.logout();
@@ -134,9 +144,9 @@ export class ChatAlfred implements OnInit, OnDestroy {
 
   getCurrentTime(): string {
     const now = new Date();
-    return now.toLocaleTimeString('es-ES', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return now.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   }
 
@@ -144,10 +154,10 @@ export class ChatAlfred implements OnInit, OnDestroy {
   processMessageFormat(text: string): string {
     // Primero procesar negrilla
     let processedText = this.processBoldFormat(text);
-    
+
     // Luego procesar listas numeradas
     processedText = this.processNumberedLists(processedText);
-    
+
     // Finalmente agregar emojis
     return this.addEmojiToMessage(processedText);
   }
@@ -164,10 +174,10 @@ export class ChatAlfred implements OnInit, OnDestroy {
     let inList = false;
     let listItems: string[] = [];
     let isNumberedList = false;
-    
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      
+
       // Detectar si la línea es parte de una lista numerada
       const numberedListMatch = line.match(/^(\d+)\.\s+(.+)$/);
       if (numberedListMatch) {
@@ -189,7 +199,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
           const indentation = bulletListMatch[1];
           const content = bulletListMatch[2];
           const indentLevel = Math.floor(indentation.length / 2); // Cada 2 espacios = 1 nivel
-          
+
           listItems.push(`<div class="bullet-list-item" style="margin-left: ${indentLevel * 20}px;"><span class="bullet">•</span> <span class="list-content">${content}</span></div>`);
         } else {
           // No es parte de una lista
@@ -200,18 +210,18 @@ export class ChatAlfred implements OnInit, OnDestroy {
             inList = false;
             isNumberedList = false;
           }
-          
+
           // Agregar la línea tal como está (sin procesar)
           processedLines.push(line);
         }
       }
     }
-    
+
     // Si quedan items de lista al final
     if (inList && listItems.length > 0) {
       processedLines.push(`<div class="list-container">${listItems.join('')}</div>`);
     }
-    
+
     // Unir las líneas preservando los saltos de línea originales
     return processedLines.join('\n');
   }
@@ -219,7 +229,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
   // Función para agregar emojis automáticamente basado en el contenido
   addEmojiToMessage(text: string): string {
     const lowerText = text.toLowerCase();
-    
+
     // Emojis para diferentes tipos de contenido
     if (lowerText.includes('hola') || lowerText.includes('buenos días') || lowerText.includes('buenas')) {
       return text + ' 👋';
@@ -251,7 +261,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
     if (lowerText.includes('información') || lowerText.includes('detalles')) {
       return text + ' ℹ️';
     }
-    
+
     return text;
   }
-} 
+}
