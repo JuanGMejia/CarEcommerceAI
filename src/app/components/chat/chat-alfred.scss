@@ -12,7 +12,6 @@
   bottom: 0;
 }
 
-// Header
 .whatsapp-header {
   background: #ffffff;
   border-bottom: 1px solid #e0e0e0;
@@ -51,51 +50,48 @@
   }
 }
 
-.chat-details {
-  h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .status {
-    font-size: 13px;
-    color: #25d366;
-    font-weight: 500;
-  }
+.chat-details h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.chat-details .status {
+  font-size: 13px;
+  color: #25d366;
+  font-weight: 500;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.header-logo {
+  height: 32px;
+  width: auto;
+  border-radius: 4px;
+}
+
+.logout-button {
+  color: #666;
+  transition: all 0.3s ease;
   
-  .header-logo {
-    height: 32px;
-    width: auto;
-    border-radius: 4px;
+  &:hover {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 50%;
   }
   
-  .logout-button {
-    color: #666;
-    transition: all 0.3s ease;
-    
-    &:hover {
-      color: #e74c3c;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: 50%;
-    }
-    
-    mat-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 }
 
-// Messages Container
 .messages-container {
   flex: 1;
   overflow-y: auto;
@@ -105,242 +101,177 @@
   min-height: 0;
 }
 
-// Welcome Message
 .welcome-message {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 300px;
-  
-  .welcome-content {
-    text-align: center;
-    background: white;
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    
-    .welcome-icon {
-      font-size: 48px;
-      color: #6a4c93;
-      margin-bottom: 16px;
-    }
-    
-    h2 {
-      margin: 0 0 8px 0;
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-    }
-    
-    p {
-      margin: 0;
-      color: #666;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-  }
 }
 
-// Message Wrapper
+.welcome-content {
+  text-align: center;
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.welcome-icon {
+  font-size: 48px;
+  color: #6a4c93;
+  margin-bottom: 16px;
+}
+
+.welcome-content h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.welcome-content p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .message-wrapper {
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
-  
-  .message-label {
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 2px;
-    padding: 0 8px;
-    
-    .label-alfred {
-      color: #6a4c93;
-    }
-    
-    .label-user {
-      color: #242424;
-    }
-  }
-  
-  &.message-user {
-    align-items: flex-end;
-    
-    .message-label {
-      text-align: right;
-    }
-    
-    .message-bubble {
-      background: #f0f0f0;
-      border-radius: 18px 18px 4px 18px;
-      
-      .message-content {
-        color: #111b21;
-      }
-      
-      .message-time {
-        color: #667781;
-      }
-      
-      .message-emoji {
-        margin-left: 8px;
-        font-size: 16px;
-        opacity: 0.8;
-      }
-    }
-  }
-  
-  &.message-system {
-    align-items: flex-start;
-    
-    .message-label {
-      text-align: left;
-    }
-    
-    .message-bubble {
-      background: linear-gradient(135deg, #6a4c93, #8e44ad);
-      border-radius: 18px 18px 18px 4px;
-      box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3);
-      
-      .message-content {
-        color: white;
-      }
-      
-      .message-time {
-        color: rgba(255, 255, 255, 0.8);
-      }
-      
-      .message-emoji {
-        margin-left: 8px;
-        font-size: 16px;
-        opacity: 0.9;
-      }
-    }
-  }
 }
 
-// Estilos específicos para mensajes de Alfred con máxima especificidad
-.message-wrapper.message-Alfred .message-bubble {
-  background: linear-gradient(135deg, #6a4c93, #8e44ad) !important;
-  border-radius: 18px 18px 18px 4px !important;
-  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3) !important;
-  
-  .message-content {
-    color: white !important;
-  }
-  
-  .message-time {
-    color: rgba(255, 255, 255, 0.8) !important;
-  }
+.message-label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  padding: 0 8px;
 }
 
-// Estilos adicionales para asegurar que se aplique
-.whatsapp-container .message-wrapper.message-Alfred .message-bubble {
-  background: linear-gradient(135deg, #6a4c93, #8e44ad) !important;
-  border-radius: 18px 18px 18px 4px !important;
-  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3) !important;
+.label-alfred {
+  color: #6a4c93;
+}
+
+.label-user {
+  color: #242424;
+}
+
+.message-wrapper.message-user {
+  align-items: flex-end;
+}
+
+.message-wrapper.message-user .message-label {
+  text-align: right;
+}
+
+.message-wrapper.message-user .message-bubble {
+  background: #f0f0f0;
+  border-radius: 18px 18px 4px 18px;
+}
+
+.message-wrapper.message-user .message-content {
+  color: #111b21;
+}
+
+.message-wrapper.message-user .message-time {
+  color: #667781;
+}
+
+.message-wrapper.message-system {
+  align-items: flex-start;
+}
+
+.message-wrapper.message-system .message-label {
+  text-align: left;
+}
+
+.message-wrapper.message-system .message-bubble {
+  background: linear-gradient(135deg, #6a4c93, #8e44ad);
+  border-radius: 18px 18px 18px 4px;
+  box-shadow: 0 2px 8px rgba(106, 76, 147, 0.3);
+}
+
+.message-wrapper.message-system .message-content {
+  color: white;
+}
+
+.message-wrapper.message-system .message-time {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .message-bubble {
   max-width: 65%;
   padding: 8px 12px;
   position: relative;
-  
-  .message-content {
-    font-size: 14px;
-    line-height: 1.4;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    
-    // Estilos para negrilla
-    strong {
-      font-weight: 700;
-    }
-    
-    // Contenedor de listas
-    .list-container {
-      margin: 8px 0;
-      padding-left: 8px;
-    }
-    
-    // Estilos para listas numeradas
-    .numbered-list-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      gap: 8px;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-      
-      .list-number {
-        font-weight: 600;
-        color: inherit;
-        opacity: 0.9;
-        min-width: 20px;
-        flex-shrink: 0;
-      }
-      
-      .list-content {
-        flex: 1;
-        line-height: 1.4;
-      }
-    }
-    
-    // Estilos para listas con viñetas
-    .bullet-list-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 6px;
-      gap: 8px;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-      
-      .bullet {
-        color: inherit;
-        opacity: 0.9;
-        min-width: 12px;
-        text-align: center;
-        flex-shrink: 0;
-      }
-      
-      .list-content {
-        flex: 1;
-        line-height: 1.4;
-      }
-    }
-  }
-  
-  .message-time {
-    font-size: 13px;
-    margin-top: 4px;
-    text-align: right;
-  }
-  
-  .message-emoji {
-    flex-shrink: 0;
-    animation: emojiPop 0.3s ease-out;
-  }
 }
 
-@keyframes emojiPop {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.message-content {
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
-// Typing Indicator
+.message-content strong {
+  font-weight: 700;
+}
+
+.list-container {
+  margin: 8px 0;
+  padding-left: 8px;
+}
+
+.numbered-list-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.numbered-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.list-number {
+  font-weight: 600;
+  color: inherit;
+  opacity: 0.9;
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+.list-content {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.bullet-list-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.bullet-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.bullet {
+  color: inherit;
+  opacity: 0.9;
+  min-width: 12px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.message-time {
+  font-size: 13px;
+  margin-top: 4px;
+  text-align: right;
+}
+
 .typing-indicator {
   display: flex;
   align-items: center;
@@ -351,30 +282,30 @@
   max-width: 200px;
   min-width: 160px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  
-  .typing-dots {
-    display: flex;
-    gap: 2px;
-    
-    span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #b3b3b3;
-      animation: typing 1.4s infinite ease-in-out;
-      
-      &:nth-child(1) { animation-delay: -0.32s; }
-      &:nth-child(2) { animation-delay: -0.16s; }
-    }
-  }
-  
-  .typing-text {
-    font-size: 12px;
-    color: #667781;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+}
+
+.typing-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b3b3b3;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+.typing-text {
+  font-size: 12px;
+  color: #667781;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @keyframes typing {
@@ -388,7 +319,6 @@
   }
 }
 
-// Input Container
 .input-container {
   background: #ffffff;
   border-top: 1px solid #e0e0e0;
@@ -400,82 +330,81 @@
 
 .message-form {
   width: 100%;
-  
-  .input-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 12px 16px;
-    border: none;
-    max-width: 100%;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    
-    .message-input {
-      flex: 1;
-      min-width: 0;
-      max-width: calc(100% - 48px); // Asegurar espacio para el botón
-      
-      .mat-mdc-form-field-flex {
-        background: transparent;
-        border: none;
-        box-shadow: none;
-      }
-      
-      .mat-mdc-text-field-wrapper {
-        padding: 0;
-        background: transparent;
-      }
-      
-      .mat-mdc-form-field-infix {
-        padding: 8px 0;
-        min-height: auto;
-      }
-      
-      input {
-        font-size: 14px;
-        color: #111b21;
-        
-        &::placeholder {
-          color: #667781;
-        }
-      }
-    }
-    
-    .send-button {
-      background: #6a4c93 !important;
-      color: white !important;
-      width: 40px;
-      height: 40px;
-      min-width: 40px;
-      flex-shrink: 0;
-      box-shadow: 0 2px 4px rgba(106, 76, 147, 0.3);
-      transition: all 0.2s ease;
-      
-      &:hover:not(:disabled) {
-        background: #5a3d7a !important;
-        transform: scale(1.05);
-        box-shadow: 0 4px 8px rgba(106, 76, 147, 0.4);
-      }
-      
-      &:disabled {
-        background: #cccccc !important;
-        box-shadow: none;
-      }
-      
-      mat-icon {
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-        color: white !important;
-      }
-    }
-  }
 }
 
-// Scrollbar styling
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 12px 16px;
+  border: none;
+  max-width: 100%;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.message-input {
+  flex: 1;
+  min-width: 0;
+  max-width: calc(100% - 48px);
+}
+
+.message-input .mat-mdc-form-field-flex {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.message-input .mat-mdc-text-field-wrapper {
+  padding: 0;
+  background: transparent;
+}
+
+.message-input .mat-mdc-form-field-infix {
+  padding: 8px 0;
+  min-height: auto;
+}
+
+.message-input input {
+  font-size: 14px;
+  color: #111b21;
+}
+
+.message-input input::placeholder {
+  color: #667781;
+}
+
+.send-button {
+  background: #6a4c93 !important;
+  color: white !important;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(106, 76, 147, 0.3);
+  transition: all 0.2s ease;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #5a3d7a !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(106, 76, 147, 0.4);
+}
+
+.send-button:disabled {
+  background: #cccccc !important;
+  box-shadow: none;
+}
+
+.send-button mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: white !important;
+}
+
 .messages-container::-webkit-scrollbar {
   width: 6px;
 }
@@ -493,7 +422,6 @@
   background: rgba(0, 0, 0, 0.3);
 }
 
-// Responsive design
 @media (max-width: 768px) {
   .whatsapp-container {
     height: 100vh;
