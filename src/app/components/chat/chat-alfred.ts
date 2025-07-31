@@ -254,21 +254,4 @@ export class ChatAlfred implements OnInit, OnDestroy {
     
     return text;
   }
-
-  // Método de prueba para verificar el formato de listas
-  testListFormatting(): void {
-    const testText = `1. **Nissan X-Trail 2022**
-   - Precio: $30,000 USD
-   - Tipo: SUV compacto
-   - Características:
-     - Motor: 2.5L 4 cilindros
-     - Potencia: 170 hp
-     - Eficiencia de combustible: 26 mpg en ciudad, 33 mpg en carretera
-     - Seguridad: Nissan Safety Shield 360, control de tracción
-     - Tecnología: Pantalla táctil de 8 pulgadas, cámara de 360 grados, Apple CarPlay
-
-Si necesitas más información sobre algún vehículo en específico, ¡no dudes en preguntar! 🚗`;
-    
-    console.log('Texto procesado:', this.processMessageFormat(testText));
-  }
 } 
