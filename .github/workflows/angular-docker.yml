@@ -45,3 +45,8 @@ jobs:
         with:
           app-name: car-ecommerce-ui
           images: jgmejias/car-ecommerce-fe:${{ steps.version.outputs.VERSION }}
+
+      - name: 🧪 Run E2E Tests
+        run: |
+          npm install
+          npm run test

@@ -39,7 +39,7 @@ describe('Ecommerce chat', () => {
   });
 
   it('should show generic error on server failure', () => {
-     cy.intercept('/chat', {
+    cy.intercept('/chat', {
       statusCode: 500
     }).as('chatResponse');
     cy.get('[name="message"]').type('Hola{enter}');
