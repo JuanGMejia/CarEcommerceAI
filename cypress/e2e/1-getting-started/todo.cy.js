@@ -7,8 +7,9 @@ describe('Ecommerce chat', () => {
 
   it('Validate error message', () => {
     cy.intercept('/conversations', {
-      statusCode: 200
-    }).as([]);
+      statusCode: 200,
+      body: []
+    }).as('getConversations');
     cy.intercept('/chat', {
       statusCode: 401
     }).as('chatResponse');
@@ -19,8 +20,9 @@ describe('Ecommerce chat', () => {
 
   it('Validate chat response', () => {
     cy.intercept('/conversations', {
-      statusCode: 200
-    }).as([]);
+      statusCode: 200,
+      body: []
+    }).as('getConversations');
     cy.intercept('/chat', {
       statusCode: 200,
       body: {
