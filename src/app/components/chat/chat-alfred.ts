@@ -10,6 +10,7 @@ import { NgClass } from '@angular/common';
 import { MsalService } from '@azure/msal-angular';
 import { finalize, takeUntil } from 'rxjs';
 import { Subject } from 'rxjs';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-chat-alfred',
@@ -19,7 +20,8 @@ import { Subject } from 'rxjs';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    NgClass
+    NgClass,
+    LoadingComponent
   ],
   templateUrl: './chat-alfred.html',
   styleUrl: './chat-alfred.scss'
@@ -28,6 +30,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
 
   chatMessagesScroll = viewChild<ElementRef>('chatMessages');
   userName = signal<string>('');
+  isGettingConversations = signal(true);
   private chatService = inject(ChatService);
   private msalService = inject(MsalService);
   private destroy$ = new Subject<void>();
@@ -39,7 +42,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAllConversations();
-    this.userName.set(this.msalService.instance.getActiveAccount()?.name ?? '');
+    this.userName.set(this.msalService.instance.getActiveAccount()?.name?.split(' ')[0] ?? '');
     this.startNewConversation();
 
     // Suscribirse a la notificación de sesión expirada
@@ -55,6 +58,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
       this.selectedConversation()?.messages.push(...conversations);
       this.cd.detectChanges();
       this.displayLastMessage();
+      this.isGettingConversations.set(false);
     })
   }
 
