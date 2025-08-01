@@ -6,9 +6,6 @@ describe('Ecommerce chat', () => {
   })
 
   it('Validate error message', () => {
-    cy.intercept('/conversations', {
-      statusCode: 200
-    }).as([]);
     cy.intercept('/chat', {
       statusCode: 401
     }).as('chatResponse');
@@ -18,9 +15,6 @@ describe('Ecommerce chat', () => {
   });
 
   it('Validate chat response', () => {
-    cy.intercept('/conversations', {
-      statusCode: 200
-    }).as([]);
     cy.intercept('/chat', {
       statusCode: 200,
       body: {
@@ -39,7 +33,7 @@ describe('Ecommerce chat', () => {
 
   it('validate welcome message', () => {
     cy.get('.welcome-content').should('be.visible').within(() => {
-      cy.get('h2').should('contain.text', '¡Hola Mateo! Soy Alfred');
+      cy.get('h2').should('contain.text', '¡Hola! Soy Alfred');
       cy.get('p').should('contain.text', 'Tu asistente de CarEcommerce. ¿En qué puedo ayudarte hoy?');
     });
   });
