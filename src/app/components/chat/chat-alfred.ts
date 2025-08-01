@@ -128,7 +128,7 @@ export class ChatAlfred implements OnInit, OnDestroy {
 
   displayLastMessage() {
     setTimeout(() => {
-      this.chatMessagesScroll()!.nativeElement.scrollTo(0, this.chatMessagesScroll()!.nativeElement.scrollHeight)
+      this.chatMessagesScroll()?.nativeElement?.scrollTo(0, this.chatMessagesScroll()?.nativeElement?.scrollHeight)
     }, 100)
   }
 
